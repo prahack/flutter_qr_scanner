@@ -1,0 +1,40 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_qr_scanner (0.0.1):
+    - Flutter
+    - zxing-cpp
+  - integration_test (0.0.1):
+    - Flutter
+  - zxing-cpp (2.2.0):
+    - zxing-cpp/Wrapper (= 2.2.0)
+  - zxing-cpp/Core (2.2.0)
+  - zxing-cpp/Wrapper (2.2.0):
+    - zxing-cpp/Core
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_qr_scanner (from `.symlinks/plugins/flutter_qr_scanner/ios`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - zxing-cpp
+
+SPEC REPOS:
+  trunk:
+    - zxing-cpp
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_qr_scanner:
+    :path: ".symlinks/plugins/flutter_qr_scanner/ios"
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_qr_scanner: 70b9b7188ef44d15c01b388a41d1f8a9a51c9771
+  integration_test: 13825b8a9334a850581300559b8839134b124670
+  zxing-cpp: 7486c8459df40d8f6a5453cc1ec35e67b10cd25a
+
+PODFILE CHECKSUM: 28685575820488970bff93a9f543fbca4ce9add1
+
+COCOAPODS: 1.13.0
