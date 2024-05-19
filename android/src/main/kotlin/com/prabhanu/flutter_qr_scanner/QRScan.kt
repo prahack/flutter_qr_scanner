@@ -36,34 +36,10 @@ class QRScanner(private val activity: Activity, private val textureRegistry: Tex
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private var textureEntry: TextureRegistry.SurfaceTextureEntry? = null
     private var cameraProvider: ProcessCameraProvider? = null
-
-
     private var listener: PluginRegistry.RequestPermissionsResultListener? = null
     private var sink: EventChannel.EventSink? = null
-
-    // The camera view
-    private lateinit var pvCamera: PreviewView
-
-    // The text view to show instructions to the user
-    private lateinit var tvInstructions: TextView
-
-    // The button to go back to the previous screen
-    private lateinit var ivBack: ImageView
-
-    // The password entered by the user
-    private lateinit var qrPassword: String
-
-    // The bar code reader
     private val barCodeReader = BarcodeReader()
-
-    // The camera
     private var camera: Camera? = null
-
-    // The frame view showing the pinch to zoom animation
-    private lateinit var flPinchToZoom: FrameLayout
-
-    // Whether the pinch to zoom hint has been shown
-    private var isPinchToZoomHintShown = false
 
     companion object {
         private const val REQUEST_CODE = 19930430
@@ -221,7 +197,7 @@ class QRScanner(private val activity: Activity, private val textureRegistry: Tex
         val floatVar: Float = x.toFloat()
 
         camera!!.cameraControl!!.setZoomRatio(floatVar)
-//        result.success(null)
+        result.success(null)
     }
 }
 
