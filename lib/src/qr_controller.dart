@@ -55,9 +55,8 @@ class _QRController implements QRController {
       stop();
     }
     id = hashCode;
-    // TODO: make this availble for both platforms
-    // subscription =
-    //     event.receiveBroadcastStream().listen((data) => handleEvent(data));
+    subscription =
+        event.receiveBroadcastStream().listen((data) => handleEvent(data));
   }
 
   void handleEvent(Map<dynamic, dynamic> event) {
@@ -65,7 +64,8 @@ class _QRController implements QRController {
     final data = event['data'];
     switch (name) {
       case 'qr_size':
-        qrSizeController.add(data);
+        List<int> intList = data.whereType<int>().toList();
+        qrSizeController.add(intList);
         break;
       case 'torchState':
         break;
@@ -80,9 +80,9 @@ class _QRController implements QRController {
   Future<void> startAsync() async {
     ensure('startAsync');
     // Check authorization state.
-    var state = await method.invokeMethod('stateNative');
+    var state = await method.invokeMethod('permissionState');
     if (state == undetermined) {
-      final result = await method.invokeMethod('requestNative');
+      final result = await method.invokeMethod('requestPermissions');
       state = result ? authorized : denied;
     }
     if (state != authorized) {
@@ -110,7 +110,7 @@ class _QRController implements QRController {
   @override
   void changeZoom(double scale) => method.invokeMethod('changeZoom', scale);
 
-  void stop() => method.invokeMethod('stopNative');
+  void stop() => method.invokeMethod('stopScan');
 
   void ensure(String name) {
     final message =

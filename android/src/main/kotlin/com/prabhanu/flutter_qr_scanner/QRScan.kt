@@ -72,7 +72,7 @@ class QRScanner(private val activity: Activity, private val textureRegistry: Tex
         sink = null
     }
 
-    fun requestNative(result: MethodChannel.Result) {
+    fun requestPermissions(result: MethodChannel.Result) {
         listener = PluginRegistry.RequestPermissionsResultListener { requestCode, _, grantResults ->
             if (requestCode != REQUEST_CODE) {
                 false
@@ -95,7 +95,7 @@ class QRScanner(private val activity: Activity, private val textureRegistry: Tex
         return listener?.onRequestPermissionsResult(requestCode, permissions, grantResults) ?: false
     }
 
-    fun stateNative(result: MethodChannel.Result) {
+    fun permissionState(result: MethodChannel.Result) {
         // Can't get exact denied or not_determined state without request. Just return not_determined when state isn't authorized
         val state =
             if (ContextCompat.checkSelfPermission(
@@ -107,7 +107,7 @@ class QRScanner(private val activity: Activity, private val textureRegistry: Tex
         result.success(state)
     }
 
-    fun startNative(result: MethodChannel.Result) {
+    fun startScan(result: MethodChannel.Result) {
         val future = ProcessCameraProvider.getInstance(activity)
         val executor = ContextCompat.getMainExecutor(activity)
         future.addListener({
@@ -169,7 +169,7 @@ class QRScanner(private val activity: Activity, private val textureRegistry: Tex
         }, executor)
     }
 
-    fun stopNative(result: MethodChannel.Result?) {
+    fun stopScan(result: MethodChannel.Result?) {
         val owner = activity as LifecycleOwner
         camera!!.cameraInfo.torchState.removeObservers(owner)
         cameraProvider!!.unbindAll()
@@ -188,7 +188,7 @@ class QRScanner(private val activity: Activity, private val textureRegistry: Tex
         sink?.success(event)
     }
 
-    fun changeZoomLevel(call: MethodCall, result: MethodChannel.Result) {
+    fun changeZoom(call: MethodCall, result: MethodChannel.Result) {
         val scaleFactor: Double = call.arguments as Double
         println("scaleFactor: $scaleFactor")
         val currentZoomRatio = camera!!.cameraInfo.zoomState.value!!.zoomRatio

@@ -48,14 +48,14 @@ public class FlutterQrScannerPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
         switch call.method {
         case "getPlatformVersion":
             result("iOS " + UIDevice.current.systemVersion)
-        case "stateNative":
-            stateNative(call, result)
-        case "requestNative":
-            requestNative(call, result)
+        case "permissionState":
+            permissionState(call, result)
+        case "requestPermissions":
+            requestPermissions(call, result)
         case "startScan":
-            startNative(call, result)
-        case "stopNative":
-            stopNative(result)
+            startScan(call, result)
+        case "stopScan":
+            stopScan(result)
         case "changeZoom":
             changeZoom(call, result)
         default:
@@ -165,7 +165,7 @@ public class FlutterQrScannerPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
         return outputBuffer
     }
     
-    func stateNative(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+    func permissionState(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         switch status {
         case .notDetermined:
@@ -177,11 +177,11 @@ public class FlutterQrScannerPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
         }
     }
     
-    func requestNative(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+    func requestPermissions(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
         AVCaptureDevice.requestAccess(for: .video, completionHandler: { result($0) })
     }
     
-    func startNative(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+    func startScan(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
         textureId = registry.register(self)
         captureSession = AVCaptureSession()
         
@@ -244,7 +244,7 @@ public class FlutterQrScannerPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
     }
     
     
-    func stopNative(_ result: FlutterResult) {
+    func stopScan(_ result: FlutterResult) {
         captureSession.stopRunning()
         for input in captureSession.inputs {
             captureSession.removeInput(input)
@@ -306,6 +306,7 @@ public class FlutterQrScannerPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
         // Convert result bytes to UInt8 array and log
         let qrBytes = [UInt8](result)
         print("QR Code Bytes: \(qrBytes)")
-        
+        let event: [String: Any?] = ["name": "qr_size","data": qrBytes]
+        sink?(event)
     }
 }

@@ -57,19 +57,19 @@ class FlutterQrScannerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         if (call.method == "getPlatformVersion") {
             result.success("Android method")
         } else if (call.method == "startScan") {
-            qrScanActivity!!.startNative(result)
+            qrScanActivity!!.startScan(result)
             return
-        } else if (call.method == "requestNative") {
-            qrScanActivity!!.requestNative(result)
+        } else if (call.method == "requestPermissions") {
+            qrScanActivity!!.requestPermissions(result)
             return
-        } else if (call.method == "stateNative") {
-            qrScanActivity!!.stateNative(result)
+        } else if (call.method == "permissionState") {
+            qrScanActivity!!.permissionState(result)
             return
         } else if (call.method == "changeZoom") {
-            qrScanActivity!!.changeZoomLevel(call, result)
+            qrScanActivity!!.changeZoom(call, result)
             return
-        } else if (call.method == "stopNative") {
-            qrScanActivity!!.stopNative(result)
+        } else if (call.method == "stopScan") {
+            qrScanActivity!!.stopScan(result)
             return
         } else {
             result.notImplemented()
